@@ -6,7 +6,7 @@ library(sf)
 library(raster)
 
 # Cargar el shapefile
-shp_path <- "Valle de Aburra.shp"
+shp_path <- "Valle de Aburra.shp"  # Si s esta ejecutando elprecenteodigo en Rstudio, lo ideales que aqui este  el pat de ubicacion del archivo
 shp_data <- st_read(shp_path)
 
 # Obtener los nombres de los atributos del shapefile
