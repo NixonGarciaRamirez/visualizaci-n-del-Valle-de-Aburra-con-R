@@ -6,7 +6,7 @@ library(sf)
 library(raster)
 
 # Cargar el shapefile
-shp_path <- "Valle de Aburra.shp"  # Si s esta ejecutando elprecenteodigo en Rstudio, lo ideales que aqui este  el pat de ubicacion del archivo
+shp_path <- "Valle_Analisis.shp"# Aqui de ir la UBICACION DEL shp
 shp_data <- st_read(shp_path)
 
 # Obtener los nombres de los atributos del shapefile
@@ -15,19 +15,13 @@ attribute_names <- names(shp_data)
 
 # Lista con información adicional para los atributos
 info_list <- list(
-  DPTO_CCDGO = "Este atributo representa el codigo del departamento a nivel Nacional",
-  MPIO_CCDGO = "Este atributo representa el codigo de cada munidicio a nivel nacional",
-  MPIO_CDPMP = "Código DANE concatenado departamento y municipio",
-  DPTO_CNMBR = "Nombre del departamento visualizado",
-  MPIO_CNMBR = "Nombre del municipio Visualizado",
-  MPIO_CRSLC = "Año documentado de la creación del municipio",
-  MPIO_NAREA = "Este atributo representa el área total de cada municipio en km².",
-  MPIO_CSMBL = "Simbolo polígono municipio",
-  MPIO_VGNC =  "Año vigencia DANE",
-  MPIO_TIPO =  "Tipo municipio según DIVIPOLA",
-  MPIO_CNMBR = "Este atributo contiene el nombre de cada municipio.",
-  Shape_Leng = "Longitud en Km del perimetro del shp",
-  Shape_Area = "Area en km² del shp"
+  Nombre = "Nombre del municipio Visualizado",
+  Area= "Este atributo representa el área total de cada municipio en km².",
+  Poblacion = "Este campo representa la cantidad de poblacion censada por el DANE en el año 2023",
+  CO = "Este campo representa la cantidad de monoxido de carbono presente en cada municipio en el año 2023 en partes por millon medido por el SISAIRE",
+  ICA_Pm2.5 = "Este campo representa el Indice de Calidad de Aire para materiar particulado de 2.5 micrometros por municipio, donde la concentracion en micro gramos por metro cubico: 0-12 es Buena, 13- 37 Aceptable, 38 - 55 Dañina a grupos sencibles, 56 - 150 Dañina a la salud, 151 - 250 Muy dañina a la salud y 251 - 500 Peligrosa. Datos: SIATA ",
+  ICA_Pm10 = "Este campo representa el Indice de Calidad de Aire para materiar particulado de 2.5 micrometros por municipio, donde la concentracion en micro gramos por metro cubico: 0-54 es Buena, 55- 154 Aceptable, 155 - 254 Dañina a grupos sencibles, 255 - 354 Dañina a la salud, 355 - 424 Muy dañina a la salud y 425 - 604 Peligrosa. Datos: SIATA ",
+  IRCA = "Este campo representa el Indice de Riesgo de la Calidad del Agua para consumo Humano, este valor es basicamente un promedio ponderado de varias caracterisisticas de sanidad del agua, si el puntaje da entre 0-5 es agua sin riesgo, si es entre 5.1-14 riesgo bajo, 14.1-35 riesgo medio, 35.1-80 riesgo alto y 80.1-100 es agua inviable para consumo humano  "
   # Agrega más atributos según sea necesario
 )
 
@@ -103,19 +97,13 @@ server <- function(input, output, session) {
           opacity = 1.0,
           fillOpacity = 0.5,
           popup = ~paste0("<strong>Atributos del Polígono:</strong><br>",
-                          "DPTO_CCDGO: ", DPTO_CCDGO, "<br>",
-                          "MPIO_CCDGO: ", MPIO_CCDGO, "<br>",
-                          "MPIO_CDPMP: ", MPIO_CDPMP, "<br>",
-                          "DPTO_CNMBR: ", DPTO_CNMBR, "<br>",
-                          "MPIO_CNMBR: ", MPIO_CNMBR, "<br>",
-                          "MPIO_CRSLC: ", MPIO_CRSLC, "<br>",
-                          "MPIO_NAREA: ", MPIO_NAREA, "<br>",
-                          "MPIO_CSMBL: ", MPIO_CSMBL, "<br>",
-                          "MPIO_VGNC: ", MPIO_VGNC, "<br>",
-                          "MPIO_TIPO: ", MPIO_TIPO, "<br>",
-                          "MPIO_CNMBR: ", MPIO_CNMBR, "<br>",
-                          "Shape_Leng: ", Shape_Leng,"<br>",
-                          "Shape_Area: ", Shape_Area
+                          "Nombre: ", Nombre, "<br>",
+                          "Area: ", Area, "<br>",
+                          "Poblacion: ", Poblacion, "<br>",
+                          "CO:", CO, "<br>",
+                          "ICA_Pm2.5:", ICA_Pm2.5, "<br>",
+                          "ICA_Pm10:", ICA_Pm10,"<br>",
+                          "IRCA:",IRCA
                           )
         )
     
@@ -135,5 +123,7 @@ output$info <- renderPrint({
 }
 
 shinyApp(ui, server)
+
+
 
 
